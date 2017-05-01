@@ -17,7 +17,7 @@
     <style>
       :host {
         display: block;
-        --paper-input-container-focus-color: darkblue;
+        --paper-input-container-focus-color: #00AA8D;
       }
       h2 {
         text-align: center;
@@ -46,7 +46,7 @@
       paper-fab {
         margin-bottom: 10px;
         display: inline-block;
-        background-color: lightblue;
+        background-color: #00AA8D;
       }
       hr {
         margin-top: 10px;
@@ -58,7 +58,7 @@
       <div class="inputContainer">
         <paper-input id="input" autofocus placeholder="Reminder description"></paper-input>
         <paper-date-picker-item icon="icons:today" date="{{date}}" date-format="ll"></paper-date-picker-item>
-        <paper-fab suffix icon="add" title="Add" id="add-fab" on-click="addReminder"></paper-fab>
+        <paper-fab icon="add" title="Add" on-click="addReminder"></paper-fab>
       </div>
 
       <div role="listbox" class="list">
