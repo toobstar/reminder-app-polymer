@@ -8,9 +8,8 @@
 <link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/paper-date-picker-item/paper-date-picker-item.html">
-<script src="../../bower_components/moment/min/locales.js"></script>
-
 <link rel="import" href="item.html">
+<script src="../../bower_components/moment/min/locales.js"></script>
 
 <dom-module id="reminder-app">
   <template>
@@ -39,7 +38,7 @@
         max-width: 400px;
         margin: auto;
       }
-      todo-item {
+      reminder-item {
         margin-top: 20px;
         margin-bottom: 20px;
       }
@@ -64,7 +63,7 @@
       <div role="listbox" class="list">
         <template is="dom-repeat" items="{{reminders}}">
           <hr/>
-          <todo-item item="{{item}}" text="{{item.text}}" date="{{item.date}}" index="{{index}}"></todo-item>
+          <reminder-item item="{{item}}" text="{{item.text}}" date="{{item.date}}" index="{{index}}"></reminder-item>
         </template>
       </div>
     </paper-material>
