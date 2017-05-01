@@ -1,0 +1,41 @@
+<link rel="import" href="../../bower_components/paper-item/paper-icon-item.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item-body.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/moment-js/moment-js.html">
+
+<dom-module id="todo-item">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    <paper-icon-item>
+      <paper-item-body>
+        <moment-js date="{{date}}" format="ll" ></moment-js>
+        {{text}}
+      </paper-item-body>
+      <paper-icon-button icon="clear" title="Remove Reminder" on-click="removeReminder"></paper-icon-button>
+    </paper-icon-item>
+
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'todo-item',
+
+      properties: {
+        item: {
+          type: Object,
+        },
+      },
+
+      removeReminder: function(){
+        this.fire('removeReminder', {index: this.get('index')});
+      }
+
+    });
+  </script>
+</dom-module>

@@ -1,0 +1,113 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-material/paper-material.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../../bower_components/app-storage/app-localstorage/app-localstorage-document.html">
+<link rel="import" href="../../bower_components/paper-styles/typography.html">
+<link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-date-picker-item/paper-date-picker-item.html">
+<script src="../../bower_components/moment/min/locales.js"></script>
+
+<link rel="import" href="item.html">
+
+<dom-module id="reminder-app">
+  <template>
+    <style>
+      :host {
+        display: block;
+        --paper-input-container-focus-color: darkblue;
+      }
+      h2 {
+        text-align: center;
+        @apply(--paper-font-display2);
+      }
+      #paper {
+        margin: 0 10%;
+        padding: 1em;
+      }
+      .inputContainer {
+        max-width: 400px;
+        margin: auto;
+      }
+      paper-date-picker-item {
+        display: inline-block;
+        width:calc(100% - 70px);
+      }
+      paper-input {
+        max-width: 400px;
+        margin: auto;
+      }
+      todo-item {
+        margin-top: 20px;
+        margin-bottom: 20px;
+      }
+      paper-fab {
+        margin-bottom: 10px;
+        display: inline-block;
+        background-color: lightblue;
+      }
+      hr {
+        margin-top: 10px;
+        max-width: 90%;
+      }
+    </style>
+    <paper-material elevation="2" id="paper" class="padTop">
+      <h2>My Reminders</h2>
+      <div class="inputContainer">
+        <paper-input id="input" autofocus placeholder="Reminder description"></paper-input>
+        <paper-date-picker-item icon="icons:today" date="{{date}}" date-format="ll"></paper-date-picker-item>
+        <paper-fab suffix icon="add" title="Add" id="add-fab" on-click="addReminder"></paper-fab>
+      </div>
+
+      <div role="listbox" class="list">
+        <template is="dom-repeat" items="{{reminders}}">
+          <hr/>
+          <todo-item item="{{item}}" text="{{item.text}}" date="{{item.date}}" index="{{index}}"></todo-item>
+        </template>
+      </div>
+    </paper-material>
+
+    <app-localstorage-document key="reminders" data="{{reminders}}"></app-localstorage-document>
+
+  </template>
+
+  <script>
+
+    Polymer({
+
+      is: 'reminder-app',
+
+      properties: {
+        reminders: {
+          type: Array,
+          value: []
+        },
+        date:'empty'
+      },
+
+      ready: function(){
+        this.addEventListener('removeReminder', this.removeReminder);
+        this.date = moment();
+      },
+
+      addReminder: function(){
+        let text = this.$.input.value;
+        let item = {
+          text: text,
+          date: this.date.valueOf()
+        }
+        this.push('reminders', item);
+        this.$.input.value = "";
+      },
+
+      removeReminder: function(event){
+        let index = event.detail.index;
+        this.splice('reminders', index, 1);
+      },
+
+    });
+
+  </script>
+</dom-module>
