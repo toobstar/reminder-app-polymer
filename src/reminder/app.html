@@ -8,6 +8,8 @@
 <link rel="import" href="../../bower_components/paper-toast/paper-toast.html">
 <link rel="import" href="../../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../../bower_components/paper-date-picker-item/paper-date-picker-item.html">
+<link rel="import" href="../../bower_components/iron-autogrow-textarea/iron-autogrow-textarea.html">
+<link rel="import" href="../../bower_components/iron-label/iron-label.html">
 <link rel="import" href="item.html">
 <script src="../../bower_components/moment/min/locales.js"></script>
 
@@ -18,9 +20,10 @@
         display: block;
         --paper-input-container-focus-color: #00AA8D;
       }
-      h2 {
+      h1 {
         text-align: center;
-        @apply(--paper-font-display2);
+        @apply(--paper-font-display1);
+        margin-bottom: 50px;
       }
       #paper {
         margin: 0 10%;
@@ -48,22 +51,55 @@
         background-color: #00AA8D;
       }
       hr {
-        margin-top: 10px;
+        margin-top: 30px;
         max-width: 90%;
       }
+      .fadeAppear {
+        -webkit-animation: fadein 1s;
+        -moz-animation: fadein 1s;
+        -ms-animation: fadein 1s;
+        -o-animation: fadein 1s;
+        animation: fadein 1s;
+      }
+      @keyframes fadein {
+        from { opacity: 0; }
+        to   { opacity: 1; }
+      }
+      @-moz-keyframes fadein {
+        from { opacity: 0; }
+        to   { opacity: 1; }
+      }
+      @-webkit-keyframes fadein {
+        from { opacity: 0; }
+        to   { opacity: 1; }
+      }
+      @-ms-keyframes fadein {
+        from { opacity: 0; }
+        to   { opacity: 1; }
+      }
+      @-o-keyframes fadein {
+        from { opacity: 0; }
+        to   { opacity: 1; }
+      }
     </style>
+
     <paper-material elevation="2" id="paper" class="padTop">
-      <h2>My Reminders</h2>
-      <div class="inputContainer">
-        <paper-input id="input" autofocus placeholder="Reminder description"></paper-input>
+
+      <h1>Polymer Reminder App</h1>
+      <div class="inputContainer fadeAppear">
+        <iron-label>
+          Create reminder
+        </iron-label>
+        <paper-input id="rTitle" autofocus placeholder="Title"></paper-input>
+        <iron-autogrow-textarea id="rDescription" placeholder="Description"></iron-autogrow-textarea>
         <paper-date-picker-item icon="icons:today" date="{{date}}" date-format="ll"></paper-date-picker-item>
         <paper-fab icon="add" title="Add" on-click="addReminder"></paper-fab>
       </div>
 
       <div role="listbox" class="list">
-        <template is="dom-repeat" items="{{reminders}}">
+        <template is="dom-repeat" items="{{reminders}}" >
           <hr/>
-          <reminder-item item="{{item}}" text="{{item.text}}" date="{{item.date}}" index="{{index}}"></reminder-item>
+          <reminder-item item="{{item}}" title="{{item.title}}" description="{{item.description}}" date="{{item.date}}" index="{{index}}" class="fadeAppear"></reminder-item>
         </template>
       </div>
     </paper-material>
@@ -92,13 +128,16 @@
       },
 
       addReminder: function(){
-        let text = this.$.input.value;
+        let textTitle = this.$.rTitle.value;
+        let textDescription = this.$.rDescription.value;
         let item = {
-          text: text,
+          title: textTitle,
+          description: textDescription,
           date: this.date.valueOf()
         }
         this.push('reminders', item);
-        this.$.input.value = "";
+        this.$.rTitle.value = "";
+        this.$.rDescription.value = "";
       },
 
       removeReminder: function(event){
